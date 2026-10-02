@@ -1,5 +1,5 @@
 DELETE FROM `creature` WHERE (`guid` IN ('23119', '23120', '23121', '23122', '23123', '23124'));
-DELETE FROM `creature_movement` WHERE (`id` IN ('23121'));
+DELETE FROM `creature_movement` WHERE (`id` IN ('23119', '23120', '23121', '23122', '23123', '23124'));
 
 SET @CGUID := 23119;
 SET @SGUID := 11104;

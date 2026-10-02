@@ -129,7 +129,6 @@ INSERT INTO spell_group_spell(Id, SpellId) VALUES
 (1,26401), -- Food
 (1,26472), -- Food
 (1,26474), -- Food
-(1,27094), -- Food
 (1,28616), -- Food
 (1,29008), -- Food
 (1,29038), -- Fizzy Energy Drink
@@ -163,7 +162,6 @@ INSERT INTO spell_group_spell(Id, SpellId) VALUES
 (2,26402), -- Drink
 (2,26473), -- Drink
 (2,26475), -- Drink
-(2,27089), -- Drink
 (2,29007), -- Drink
 (2,29039), -- Fizzy Energy Drink
 (2,29055), -- Refreshing Red Apple
@@ -196,7 +194,6 @@ INSERT INTO spell_group_spell(Id, SpellId) VALUES
 (3,25694), -- Well Fed
 (3,25851), -- Lightheaded
 (3,25941), -- Well Fed
-(3,28170), -- Master Spellstone
 (3,29040), -- Fizzy Energy Drink
 (3,29220), -- Fiery Festival Brew
 (3,29221), -- Fiery Festival Brew
@@ -278,7 +275,6 @@ INSERT INTO spell_group_spell(Id, SpellId) VALUES
 (7,25290),
 (7,25894), -- Greater Blessing of Wisdom
 (7,25918),
-(7,27143),
 (7,19977), -- Blessing of Light
 (7,19978),
 (7,19979),
@@ -372,7 +368,6 @@ INSERT INTO spell_group_spell(Id, SpellId) VALUES
 
 -- Curse
 (12,603), -- doom
-(12,30910),
 (12,702), -- weakness
 (12,1108),
 (12,6205),
