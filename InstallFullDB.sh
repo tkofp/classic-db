@@ -301,7 +301,7 @@ function save_settings()
   allsettings+=("## Set the variable to \"YES\" to import AHBot sql.")
   allsettings+=("AHBOT=\"$AHBOT\"")
   allsettings+=("")
-  allsettings+=("## Define if the 'src/modules/PlayerBots/sql' directory for processing development SQL files needs to be used")
+  allsettings+=("## Define if the 'src/modules/PlayerBots(or playerbots)/sql' directory for processing development SQL files needs to be used")
   allsettings+=("##   Set the variable to \"YES\" to use the playerbots directory")
   allsettings+=("PLAYERBOTS_DB=\"$PLAYERBOTS_DB\"")
   allsettings+=("")
@@ -1483,8 +1483,27 @@ function apply_playerbots_db
     BOT_EXP_PREFIX="wotlk";
   fi
   
+  # 兼容 PlayerBots / playerbots（忽略大小写）
+  local PB_SQL_DIR=""
+  local modules_dir="${CORE_PATH}/src/modules"
+  local pb_entry=""
+  if [ -d "$modules_dir" ]; then
+    for pb_entry in "$modules_dir"/*; do
+      if [ -d "$pb_entry/sql" ] && [ "$(printf '%s' "${pb_entry##*/}" | tr 'A-Z' 'a-z')" = "playerbots" ]; then
+        PB_SQL_DIR="$pb_entry/sql"
+        break
+      fi
+    done
+  fi
+
+  if [ -z "$PB_SQL_DIR" ] || [ ! -d "$PB_SQL_DIR" ]; then
+    echo ">>> ERROR: playerbots sql directory not found under ${CORE_PATH}/src/modules/ (expected playerbots or PlayerBots)"
+    false
+    return
+  fi
+
   echo "> Trying to apply playerbots sql mods for world db..."
-  for UPDATEFILE in ${CORE_PATH}/src/modules/PlayerBots/sql/world/*.sql; do
+  for UPDATEFILE in ${PB_SQL_DIR}/world/*.sql; do
     if [ -e "$UPDATEFILE" ]; then
       local fName=$(basename "$UPDATEFILE")
       if ! execute_sql_file "$WORLD_DB_NAME" "$UPDATEFILE" "  - Applying $fName"; then
@@ -1494,7 +1513,7 @@ function apply_playerbots_db
     fi
   done
   
-  for UPDATEFILE in ${CORE_PATH}/src/modules/PlayerBots/sql/world/${BOT_EXP_PREFIX}/*.sql; do
+  for UPDATEFILE in ${PB_SQL_DIR}/world/${BOT_EXP_PREFIX}/*.sql; do
     if [ -e "$UPDATEFILE" ]; then
       local fName=$(basename "$UPDATEFILE")
       if ! execute_sql_file "$WORLD_DB_NAME" "$UPDATEFILE" "  - Applying $fName"; then
@@ -1505,7 +1524,7 @@ function apply_playerbots_db
   done
   
   echo "> Trying to apply playerbots sql mods for characters db..."
-  for UPDATEFILE in ${CORE_PATH}/src/modules/PlayerBots/sql/characters/*.sql; do
+  for UPDATEFILE in ${PB_SQL_DIR}/characters/*.sql; do
     if [ -e "$UPDATEFILE" ]; then
       local fName=$(basename "$UPDATEFILE")
       if ! execute_sql_file "$CHAR_DB_NAME" "$UPDATEFILE" "  - Applying $fName"; then
